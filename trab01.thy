@@ -192,6 +192,34 @@ theorem th01: "postorder (reflect x) = revert (preorder x)"
           qed
   qed
 
-
+theorem th02: "revert (inorder (reflect x)) = inorder x"
+  proof (induction x)
+    show "revert (inorder (reflect leaf)) = inorder leaf"
+      proof -
+        have "revert (inorder (reflect leaf)) = revert (inorder leaf)" by (simp only: re01)
+        also have                        "... = revert nil"            by (simp only: in01)
+        also have                        "... = nil"                   by (simp only: rev01)
+        also have                        "... = inorder leaf"          by (simp only: in01)
+        finally show ?thesis by this
+      qed
+      next
+        fix x::'a and left::"'a btree" and right::"'a btree"
+        assume IH1: "revert (inorder (reflect left)) = inorder left"
+        assume IH2: "revert (inorder (reflect right)) = inorder right"
+        show "revert (inorder (reflect (br x left right))) = inorder (br x left right)"
+          proof -
+            have "revert (inorder (reflect (br x left right))) = revert (inorder (br x (reflect right) (reflect left)))" by (simp only: re02)
+            also have "... = revert (cat (inorder (reflect right)) (cons x (inorder (reflect left))))" by (simp only: in02)
+            also have "... = cat (revert (cons x (inorder (reflect left)))) (revert (inorder (reflect right)))" by (simp only: crazyRev)
+            also have "... = cat (cat (revert (inorder (reflect left))) (cons x nil)) (revert (inorder (reflect right)))" by (simp only: rev02)
+            also have "... = cat (cat (revert (inorder (reflect left))) (cons x nil)) (inorder right)" by (simp only: IH2)
+            also have "... = cat (cat (inorder left) (cons x nil)) (inorder right)" by (simp only: IH1)
+            also have "... = cat (inorder left) (cat (cons x nil) (inorder right))" by (simp only: catAssociativity)
+            also have "... = cat (inorder left) (cons x (cat nil (inorder right)))" by (simp only: cat02)
+            also have "... = cat (inorder left) (cons x (inorder right))" by (simp only: cat01)
+            also have "... = inorder (br x left right)" by (simp only: in02)
+            finally show ?thesis by this
+          qed
+  qed
 
 end
