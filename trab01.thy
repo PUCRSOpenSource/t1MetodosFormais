@@ -41,6 +41,8 @@ primrec revert::"'a List => 'a List" where
   rev01: "revert nil = nil" |
   rev02: "revert (cons e L) = cat (revert L) (cons e nil)"
 
+value "revert (cons (3::int) (cons 2 (cons 1 nil)))"
+
 datatype 'a btree = leaf | br 'a "'a btree" "'a btree"
 
 primrec numLeaf::"'a btree => Nat" where
@@ -125,21 +127,42 @@ theorem catLNil: "cat nil l = cat l nil"
             also have                   "... = cons e (cat nil l)" by (simp only: cat01)
             also have                   "... = cons e (cat l nil)" by (simp only: IH)
             also have                   "... = cat (cons e l) nil" by (simp only: cat02)
-            finally show "cat nil (cons e l) = cat (cons e l) nil" by this
+            finally show ?thesis by this
           qed
       qed
 
 theorem crazyRev: "\<forall> l2. revert (cat l l2) = cat (revert l2) (revert l)"
   proof (induction l)
-    show "\<forall> l2. revert (cat nil l2) = cat (revert l2) (revert nil)"
+    show "\<forall> l2::'a List. revert (cat nil l2) = cat (revert l2) (revert nil)"
       proof (rule allI)
-        fix l::"'a List"
-        have         "revert (cat nil l) = revert l"                    by (simp only: cat01)
-        also have                   "... = cat nil (revert l)"          by (simp only: cat01)
-        also have                   "... = cat (revert l) nil"          by (simp only: catLNil)
-        also have                   "... = cat (revert l) (revert nil)" by (simp only: rev01)
-        finally show "revert (cat nil l) = cat (revert l) (revert nil)" by this
-      oops
+        fix lx::"'a List"
+        show "revert (cat nil lx) = cat (revert lx) (revert nil)"
+          proof -
+            have         "revert (cat nil lx) = revert lx"                    by (simp only: cat01)
+            also have                   "... = cat nil (revert lx)"          by (simp only: cat01)
+            also have                   "... = cat (revert lx) nil"          by (simp only: catLNil)
+            also have                   "... = cat (revert lx) (revert nil)" by (simp only: rev01)
+            finally show ?thesis by this
+          qed
+      qed
+      next
+        fix h::'a and t::"'a List"
+        assume IH: "\<forall> l2::'a List. revert (cat t l2) = cat (revert l2) (revert t)"
+        show "\<forall> l2::'a List. revert (cat (cons h t) l2) = cat (revert l2) (revert (cons h t))"
+        proof (rule allI)
+          fix lx::"'a List"
+          show "revert (cat (cons h t) lx) = cat (revert lx) (revert (cons h t))"
+            proof -
+              have "revert (cat (cons h t) lx) = revert (cons h (cat t lx))" by (simp only: cat02)
+              also have "... = cat (revert (cat t lx)) (cons h nil)" by (simp only: rev02)
+              also have "... = cat (cat (revert lx) (revert t)) (cons h nil)" by (simp only: IH)
+              also have "... = cat (revert lx) (cat (revert t) (cons h nil))" by (simp only: catAssociativity)
+              also have "... = cat (revert lx) (revert (cons h t))" by (simp only: rev02)
+              finally show ?thesis by this
+            qed
+        qed
+      qed
+
 
 theorem th01: "postorder (reflect x) = revert (preorder x)"
   proof (induction x)
@@ -162,7 +185,13 @@ theorem th01: "postorder (reflect x) = revert (preorder x)"
             also have                              "... = cat (revert (preorder right)) (cat (postorder (reflect left)) (cons x nil))"   by (simp only: IH2)
             also have                              "... = cat (revert (preorder right)) (cat (revert (preorder left)) (cons x nil))"     by (simp only: IH1)
             also have                              "... = cat (cat (revert (preorder right)) (revert (preorder left))) (cons x nil)"     by (simp only: catAssociativity)
-          oops
+            also have                              "... = cat (revert (cat (preorder left) (preorder right))) (cons x nil)"              by (simp only: crazyRev)
+            also have                              "... = revert (cons x (cat (preorder left) (preorder right)))"                        by (simp only: rev02)
+            also have                              "... = revert (preorder (br x left right))"                                           by (simp only: pre02)
+            finally show ?thesis by this
+          qed
+  qed
+
 
 
 end
