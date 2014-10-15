@@ -3,9 +3,34 @@
 \usepackage{sbc-template}
 \usepackage{graphicx,url}
 \usepackage[latin1]{inputenc}
-\usepackage{boxproof}
 \usepackage{prooftree}
 \usepackage{float}
+\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  language=ml,
+  tabsize=3
+}
 
 \sloppy
 
@@ -48,6 +73,9 @@ Isso é relevante pois mostraremos agora a definição de dois tipos de dados:
 \subsection{Listas Genéricas}
 \label{sub:Lista}
 
+Foram definidos dois construtores para uma \emph{Lista Genérica}, 
+
+
 uahfuaeh fuaehf auehf auehfu aehfuae hfuhae fuhaeuf aeufh aeufh aeufhaeuhf uaehf
 aeufh aeufh aeuhf aeufhuaeh fuaehf uaefh uaehf uaehfu aehf aeufhae ufhuaeh
 fuaehf uaeh fuae hfuaeh f
@@ -76,6 +104,47 @@ $$
   ListCons
 \end{prooftree}
 $$
+
+\begin{center}
+  \begin{framed}
+    \begin{prooftree}
+      \[
+      \proofdotseparation=1.2ex
+      \proofdotnumber=4
+      \leadsto
+        P \; nil
+      \]
+      \[
+        e_0 : \tau, l_0 : List(\tau), P(l_0)
+      \proofdotseparation=1.2ex
+      \proofdotnumber=4
+      \leadsto
+      P \; (cons \; e_0 \; L_0)
+      \]
+      (e_0, l_0 \; arbitr\acute{a}rios)
+      \justifies
+        \forall l : List(\tau). \; P \; l
+      \proofdotseparation=1.2ex
+      \thickness=0.08em
+      \using
+        IndList
+    \end{prooftree}
+  \end{framed}
+\end{center}
+
+\begin{align*}
+  cat& \; : \; List(\tau) \rightarrow List(\tau) \rightarrow List(\tau) & \\
+  cat& \; nil \; l = l & \text{cat01}\\
+  cat& \; (cons \; e \; l_1) \; l_2 = cons \; e \; (cat \; l_1 \; l_2) &
+  \text{cat02}\\
+\end{align*}
+
+\begin{align*}
+  rev& \; : \; List(\tau) \rightarrow List(\tau) & \\
+  rev& \; nil = nil & \text{rev01} \\
+  rev& \; (cons \; e \; l) = cat \; (rev \; l) (cons \; e \; nil) & \text{rev02}
+  \\
+\end{align*}
 
 \subsection{Árvores Binárias Genéricas}
 \label{sub:Arvore}
@@ -107,51 +176,133 @@ $$
 \end{prooftree}
 $$
 
+\begin{center}
+  \begin{framed}
+    \begin{prooftree}
+      \[
+      \proofdotseparation=1.2ex
+      \proofdotnumber=4
+      \leadsto
+        P \; leaf
+      \]
+      \[
+        x_0 : \tau, lt_0, rt_0 : BTree(\tau), P(lt_0), P(rt_0)
+      \proofdotseparation=1.2ex
+      \proofdotnumber=4
+      \leadsto
+      P \; (x_0, lt_0, rt_0)
+      \]
+      (x_0, lt_0, rt_0 \; arbitr\acute{a}rios)
+      \justifies
+        \forall t : BTree(\tau). \; P \; t
+      \proofdotseparation=1.2ex
+      \thickness=0.08em
+      \using
+        IndBTree
+    \end{prooftree}
+  \end{framed}
+\end{center}
 
-%\begin{proofbox}
-%\(\"1"\:\alpha\leftrightarrow\psi(x,\top)\\
-%\:\Some\beta.\psi(x,\beta) \=\mathsf{total}\\
-%\[\exists\beta\kern-1em\:\psi(x,\beta)\\
-%\(\:\beta\\
-%\:\beta=\top \=(*)\\
-%\:\psi(x,\!\top) \=\mathsf{subs}\\
-%\:\alpha \=\elim\leftrightarrow(\ref{1})\\
-%\*\:\alpha\\
-%\:\psi(x,\!\top) \=\elim\leftrightarrow(\ref{1})\\
-%\:\beta=\top \=\mathsf{func}\\
-%\:\beta\=(*)\\
-%\)\:\alpha=\beta \=\intro\leftrightarrow\\
-%\:\psi(x,\alpha) \=\mathsf{subs}\\
-%\] \:\psi(x,\alpha) \=\elim\exists\\
-%\* \:\psi(x,\alpha)\\
-%\(\:\alpha\\
-%\:\alpha=\top \=(*)\\
-%\:\phi(x,\!\top) \=\mathsf{subs}\\
-%\*\:\psi(x,\!\top)\\
-%\:\alpha=\top \=\mathsf{func}\\
-%1
-%\:\alpha \=(*)\\
-%\)\:\alpha\leftrightarrow\psi(x,\!\top) \=\intro\leftrightarrow\\
-%\) \:\psi(x,\alpha)\leftrightarrow
-%(\alpha\leftrightarrow\psi(x,\!\top)) \=\intro\leftrightarrow\\
-%\end{proofbox}
 
-The first page must display the paper title, the name and address of the
-authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
-required only for papers written in Portuguese). The title must be centered
-over the whole page, in 16 point boldface font and with 12 points of space
-before itself. Author names must be centered in 12 point font, bold, all of
-them disposed in the same line, separated by commas and with 12 points of
-space after the title. Addresses must be centered in 12 point font, also with
-12 points of space after the authors' names. E-mail addresses should be
-written using font Courier New, 10 point nominal size, with 6 points of space
-before and 6 points of space after.
+\begin{align*}
+  in& \; : \; BTree(\tau) \rightarrow List(\tau) & \\
+  in& \; leaf = nil & \text{in01} \\
+  in& \; (br \; x \; l \; r) = cat \; (in \; l) \; (cons \; x \; (in \; r)) &
+  \text{in02} \\
+\end{align*}
 
-The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
-indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
-should be written in boldface and must precede the text.
 
-\section{CD-ROMs and Printed Proceedings}
+\begin{align*}
+  pos& \; : \; BTree(\tau) \rightarrow List(\tau) & \\
+  pos& \; leaf = nil & \text{pos01} \\
+  pos& \; (br \; x \; l \; r) = cat \; (pos \; l) \; (cat \; (pos \; r) \;(cons
+  \; x \; nil)) & \text{pos02} \\
+\end{align*}
+
+\begin{align*}
+  pre& \; : \; BTree(\tau) \rightarrow List(\tau) & \\
+  pre& \; leaf = nil & \text{pre01} \\
+  pre& \; (br \; x \; l \; r) = cons \; x \; (cat \; (pre \; l) \; (pre \; r)) &
+  \text{pre02} \\
+\end{align*}
+
+\begin{align*}
+  ref& \; : \; BTree(\tau) \rightarrow BTree(\tau) & \\
+  ref& \; leaf = leaf & \text{ref01} \\
+  ref& \; (br \; x \; l \; r) = br \; x \; (ref \; l) \; (ref \; r) &
+  \text{ref02} \\
+\end{align*}
+
+\section{Provas}
+
+\subsection{Prova do Teorema 1}
+\label{sub:pth01}
+
+
+\begin{align*}
+\end{align*}
+
+\begin{lstlisting}
+theorem th01: "pos (ref x) = rev (pre x)"
+  proof (induction x)
+    show "pos (ref leaf) = rev (pre leaf)"
+      proof -
+        have "pos (ref leaf) = pos leaf" by (simp only: re01)
+        also have "... = nil" by (simp only: pos01)
+        also have "... = rev nil" by (simp only: rev01)
+        also have "... = rev (pre leaf)" by (simp only: pre01)
+        finally show "pos (ref leaf) = rev (pre leaf)" by this
+      qed
+      next
+        fix x::'a and l::"'a btree" and r::"'a btree"
+        assume IH1: "pos (ref l) = rev (pre l)"
+        assume IH2: "pos (ref r) = rev (pre r)"
+        show "pos (ref (br x l r)) = rev (pre (br x l r))"
+          proof -
+            have "pos (ref (br x l r)) = pos (br x (ref r) (ref l))" by (simp only: re02)
+            also have "... = cat (pos (ref r)) (cat (pos (ref l)) (cons x nil))" by (simp only: pos02)
+            also have "... = cat (rev (pre r)) (cat (pos (ref l)) (cons x nil))" by (simp only: IH2)
+            also have "... = cat (rev (pre r)) (cat (rev (pre l)) (cons x nil))" by (simp only: IH1)
+            also have "... = cat (cat (rev (pre r)) (rev (pre l))) (cons x nil)" by (simp only: catAssociativity)
+            also have "... = cat (rev (cat (pre l) (pre r))) (cons x nil)" by (simp only: crazyRev)
+            also have "... = rev (cons x (cat (pre l) (pre r)))" by (simp only: rev02)
+            also have "... = rev (pre (br x l r))" by (simp only: pre02)
+            finally show ?thesis by this
+          qed
+  qed
+\end{lstlisting}
+
+\begin{lstlisting}
+theorem th02: "rev (in (ref x)) = in x"
+  proof (induction x)
+    show "rev (in (ref leaf)) = in leaf"
+      proof -
+        have "rev (in (ref leaf)) = rev (in leaf)" by (simp only: re01)
+        also have "... = rev nil" by (simp only: in01)
+        also have "... = nil" by (simp only: rev01)
+        also have "... = in leaf" by (simp only: in01)
+        finally show ?thesis by this
+      qed
+      next
+        fix x::'a and l::"'a btree" and r::"'a btree"
+        assume IH1: "rev (in (ref l)) = in l"
+        assume IH2: "rev (in (ref r)) = in r"
+        show "rev (in (ref (br x l r))) = in (br x l r)"
+          proof -
+            have "rev (in (ref (br x l r))) = rev (in (br x (ref r) (ref l)))" by (simp only: re02)
+            also have "... = rev (cat (in (ref r)) (cons x (in (ref l))))" by (simp only: in02)
+            also have "... = cat (rev (cons x (in (ref l)))) (rev (in (ref r)))" by (simp only: crazyRev)
+            also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (rev (in (ref r)))" by (simp only: rev02)
+            also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (in r)" by (simp only: IH2)
+            also have "... = cat (cat (in l) (cons x nil)) (in r)" by (simp only: IH1)
+            also have "... = cat (in l) (cat (cons x nil) (in r))" by (simp only: catAssociativity)
+            also have "... = cat (in l) (cons x (cat nil (in r)))" by (simp only: cat02)
+            also have "... = cat (in l) (cons x (in r))" by (simp only: cat01)
+            also have "... = in (br x l r)" by (simp only: in02)
+            finally show ?thesis by this
+          qed
+  qed
+\end{lstlisting}
 
 In some conferences, the papers are published on CD-ROM while only the
 abstract is published in the printed Proceedings. In this case, authors are
