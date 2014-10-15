@@ -10,6 +10,7 @@
 \usepackage{mathtools}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{amssymb}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -61,8 +62,53 @@
 
 \section{Introdução} \label{sec:intro}
 
-Dentro do escopo da disciplina de Métodos Formais, 
+Dentro do escopo da disciplina de Métodos Formais, o primeiro trabalho pode ser
+resumido como o seguinte: definir uma teoria para árvores binárias polimórficas
+(genéricas), com as seguintes operações:
 
+\begin{enumerate}
+  \item Enumerar os nodos de uma árvore após visitála na forma inorder
+  \item Enumerar os nodos de uma árvore após visitála na forma postorder
+  \item Enumerar os nodos de uma árvore após visitála na forma preorder
+  \item Refletir, ou espelhar, uma árvore
+\end{enumerate}
+
+As três primeiras operações devem retornar uma Lista com os nodos visitados na
+ordem especificada.
+
+Com essa operações temos que demonstrar os seguintes teoremas:
+
+\begin{itemize}
+  \item Visitar a reflexão de uma árvore na forma postorder é igual a listar os
+    nodos após uma visita em preorder e depois reverter a enumração
+    correspondente.
+  \item Visitar a reflexão de uma árvore na forma inorder e inverter a
+    enumeração correspondente é igual a listar os nodos visitados na forma
+    inorder.
+\end{itemize}
+
+\subsection{Conjuntos Indutivos}
+\label{sub:con}
+
+Uma definição indutiva de um conjunto $S$ consiste sempre da \textbf{base},
+\textbf{indução} e o \textbf{fecho}.
+
+\begin{description}
+  \item[Base] \hfill \\
+    Elementos específicos e constantes de $S$.
+  \item[Indução] \hfill \\
+    Regras para construir novos elementos de $S$ a partir da \textbf{base}.
+  \item[Fecho] \hfill \\
+    Declarar que $S$ consiste exatamente dos elementos produzidos pelos passos
+    da \textbf{base} e \textbf{indução}.
+\end{description}
+
+\subsection{Construtores}
+\label{sub:Construtores}
+
+"Os $construtores$ de um tipo indutivo $S$ são todos elementos listados no passo
+da base juntamente com todas as regras apresentadas no passo de indução."
+\cite{alfio:14}
 
 \section{Definições e Teoremas} \label{sec:def}
 
@@ -239,8 +285,8 @@ $$
 \label{sub:pth01}
 
 \begin{align*}
-  P &\doteq \forall x:BTree(\tau). \; pos \; (ref \; x) = rev \; (pre \; x) \\
-  P(n) &\doteq pos \; (ref \; n) = rev \; (pre \; n) \\
+  P &\triangleq \forall x:BTree(\tau). \; pos \; (ref \; x) = rev \; (pre \; x) \\
+  P(n) &\triangleq pos \; (ref \; n) = rev \; (pre \; n) \\
 \end{align*}
 
 \emph{Prova do caso base:}
@@ -286,8 +332,8 @@ Com isso é suficiente demonstrar que
 \label{sub:pth02}
 
 \begin{align*}
-  P &\doteq \forall x:BTree(\tau). \; rev \; (in \; (ref \; x)) = in \; x \\
-  P(n) &\doteq rev \; (in \; (ref \; n)) = in \; n \\
+  P &\triangleq \forall x:BTree(\tau). \; rev \; (in \; (ref \; x)) = in \; x \\
+  P(n) &\triangleq rev \; (in \; (ref \; n)) = in \; n \\
 \end{align*}
 
 \emph{Prova do caso base:}
@@ -303,36 +349,38 @@ suficiente provar que
   qed & & \\
 \end{align*}
 
-%theorem th02: "rev (in (ref x)) = in x"
-  %proof (induction x)
-    %show "rev (in (ref leaf)) = in leaf"
-      %proof -
-        %have "rev (in (ref leaf)) = rev (in leaf)" by (simp only: re01)
-        %also have "... = rev nil" by (simp only: in01)
-        %also have "... = nil" by (simp only: rev01)
-        %also have "... = in leaf" by (simp only: in01)
-        %finally show ?thesis by this
-      %qed
-      %next
-        %fix x::'a and l::"'a btree" and r::"'a btree"
-        %assume IH1: "rev (in (ref l)) = in l"
-        %assume IH2: "rev (in (ref r)) = in r"
-        %show "rev (in (ref (br x l r))) = in (br x l r)"
-          %proof -
-            %have "rev (in (ref (br x l r))) = rev (in (br x (ref r) (ref l)))" by (simp only: re02)
-            %also have "... = rev (cat (in (ref r)) (cons x (in (ref l))))" by (simp only: in02)
-            %also have "... = cat (rev (cons x (in (ref l)))) (rev (in (ref r)))" by (simp only: crazyRev)
-            %also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (rev (in (ref r)))" by (simp only: rev02)
-            %also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (in r)" by (simp only: IH2)
-            %also have "... = cat (cat (in l) (cons x nil)) (in r)" by (simp only: IH1)
-            %also have "... = cat (in l) (cat (cons x nil) (in r))" by (simp only: catAssociativity)
-            %also have "... = cat (in l) (cons x (cat nil (in r)))" by (simp only: cat02)
-            %also have "... = cat (in l) (cons x (in r))" by (simp only: cat01)
-            %also have "... = in (br x l r)" by (simp only: in02)
-            %finally show ?thesis by this
-          %qed
-  %qed
+\emph{Prova do caso indutivo:}
 
+Sejam $x_0:\tau, l:BTree(\tau), r:BTree(\tau)$ variáveis arbitrárias. Assumimos
+como hipóteses de indução
+
+\begin{align*}
+  rev \; (in \; (ref \; l)) &= in \; l & \text{IH1} \\
+  rev \; (in \; (ref \; r)) &= in \; r & \text{IH2} \\
+\end{align*}
+
+Com isso é suficiente demonstrar que
+\begin{align*}
+  rev \; (in \; (ref \; (br \; x \; l \; r))) &= rev \; (in \; (br \; x \; (ref
+  \; r) \; (ref \; l))) & \text{by re02} \\
+  ... &= rev \; (cat \; (in \; (ref \; r)) \; (cons \; x \; (in \; (ref \; l))))
+  & \text{by in02} \\
+  ... &= cat \; (rev \; (cons \; x \; (in \; (ref \; l)))) \; (rev \; (in \; (ref
+  \; r))) & \text{by crazyRev} \\
+  ... &= cat \; (cat \; (rev \; (in \; (ref \; l))) \; (cons \; x \; nil)) \;
+  (rev \; (in \; (ref \; r))) & \text{by rev02} \\
+  ... &= cat \; (cat \; (rev \; (in \; (ref \; l))) \; (cons \; x \; nil)) (in \;
+  r) & \text{by H2} \\
+  ... &= cat \; (cat \; (in \; l) \; (cons \; x \; nil)) (in \; r) & \text{by
+  IH1} \\
+  ... &= cat \; (in \; l) \; (cat \; (cons \; x \; nil) \; (in \; r)) & \text{by
+  catAss} \\
+  ... &= cat \; (in \; l) \; (cons \; x \; (cat \; nil \; (in \; r))) & \text{by
+  cat02} \\
+  ... &= cat \; (in \; l) \; (cons \; x \; (in \; r)) & \text{by cat01} \\
+  ... &= in (br x l r) & \text{by in02} \\
+  qed & & \\
+\end{align*}
 
 \begin{lstlisting}
 theorem th01: "pos (ref x) = rev (pre x)"
