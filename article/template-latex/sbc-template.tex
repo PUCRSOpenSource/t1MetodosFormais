@@ -1,0 +1,234 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[latin1]{inputenc}
+\usepackage{boxproof}
+\usepackage{prooftree}
+\usepackage{float}
+
+\sloppy
+
+\title{Métodos Formais\\ Trabalho I}
+
+\author{Matthias Oliveira de Nunes}
+
+\address{Faculdade de Informática -- Pontifícia Universidade Católica do Rio
+        Grande do Sul (PUCRS)\\
+        Av. Ipiranga, 6681 Partenon Porto Alegre/RS CEP: 90619-900 -- Brazil
+\email{matthiasnunes@gmail.com}}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+  This meta-paper describes the first assingment of the Formal Methods course,
+  on which we define four primitive recursive functions, for the generic binary
+  tree datatype, and prove two theorems.
+\end{abstract}
+     
+\begin{resumo}
+  Este meta-artigo descreve o primeiro trabalho da cadeira de Métodos formais,
+  onde definimos quatro funções primitivas recursivas, para o tipo de dado
+  árvore genérica, e provamos dois teoremas.
+\end{resumo}
+
+\section{Introdução} \label{sec:intro}
+
+Dentro do escopo da disciplina de Métodos Formais, 
+
+
+\section{Definições e Teoremas} \label{sec:def}
+
+Como explicado anteriormente, um conjunto indutivo possui \emph{construtores}.
+Isso é relevante pois mostraremos agora a definição de dois tipos de dados:
+\emph{Listas Genéricas} e \emph{Árvores Binárias Genéricas}.
+
+\subsection{Listas Genéricas}
+\label{sub:Lista}
+
+uahfuaeh fuaehf auehf auehfu aehfuae hfuhae fuhaeuf aeufh aeufh aeufhaeuhf uaehf
+aeufh aeufh aeuhf aeufhuaeh fuaehf uaefh uaehf uaehfu aehf aeufhae ufhuaeh
+fuaehf uaeh fuae hfuaeh f
+
+$$
+\begin{prooftree}
+\justifies
+  nil \in List(\tau)
+\proofdotseparation=1.2ex
+\thickness=0.08em
+\using
+  ListEmpty
+\end{prooftree}
+$$
+
+$$
+\begin{prooftree}
+  e \in \tau
+  \;\;\;
+  L \in List(\tau)
+\justifies
+  cons \;  e \; L
+\proofdotseparation=1.2ex
+\thickness=0.08em
+\using
+  ListCons
+\end{prooftree}
+$$
+
+\subsection{Árvores Binárias Genéricas}
+\label{sub:Arvore}
+
+$$
+\begin{prooftree}
+\justifies
+  leaf \in BTree(\tau)
+\proofdotseparation=1.2ex
+\thickness=0.08em
+\using
+  BTreeEmpty
+\end{prooftree}
+$$
+
+$$
+\begin{prooftree}
+  x \in \tau
+  \;\;\;
+  L \in BTree(\tau)
+  \;\;\;
+  R \in BTree(\tau)
+\justifies
+  br \;  x \; L \; R
+\proofdotseparation=1.2ex
+\thickness=0.08em
+\using
+  BTreeBranch
+\end{prooftree}
+$$
+
+
+%\begin{proofbox}
+%\(\"1"\:\alpha\leftrightarrow\psi(x,\top)\\
+%\:\Some\beta.\psi(x,\beta) \=\mathsf{total}\\
+%\[\exists\beta\kern-1em\:\psi(x,\beta)\\
+%\(\:\beta\\
+%\:\beta=\top \=(*)\\
+%\:\psi(x,\!\top) \=\mathsf{subs}\\
+%\:\alpha \=\elim\leftrightarrow(\ref{1})\\
+%\*\:\alpha\\
+%\:\psi(x,\!\top) \=\elim\leftrightarrow(\ref{1})\\
+%\:\beta=\top \=\mathsf{func}\\
+%\:\beta\=(*)\\
+%\)\:\alpha=\beta \=\intro\leftrightarrow\\
+%\:\psi(x,\alpha) \=\mathsf{subs}\\
+%\] \:\psi(x,\alpha) \=\elim\exists\\
+%\* \:\psi(x,\alpha)\\
+%\(\:\alpha\\
+%\:\alpha=\top \=(*)\\
+%\:\phi(x,\!\top) \=\mathsf{subs}\\
+%\*\:\psi(x,\!\top)\\
+%\:\alpha=\top \=\mathsf{func}\\
+%1
+%\:\alpha \=(*)\\
+%\)\:\alpha\leftrightarrow\psi(x,\!\top) \=\intro\leftrightarrow\\
+%\) \:\psi(x,\alpha)\leftrightarrow
+%(\alpha\leftrightarrow\psi(x,\!\top)) \=\intro\leftrightarrow\\
+%\end{proofbox}
+
+The first page must display the paper title, the name and address of the
+authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
+required only for papers written in Portuguese). The title must be centered
+over the whole page, in 16 point boldface font and with 12 points of space
+before itself. Author names must be centered in 12 point font, bold, all of
+them disposed in the same line, separated by commas and with 12 points of
+space after the title. Addresses must be centered in 12 point font, also with
+12 points of space after the authors' names. E-mail addresses should be
+written using font Courier New, 10 point nominal size, with 6 points of space
+before and 6 points of space after.
+
+The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
+indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
+should be written in boldface and must precede the text.
+
+\section{CD-ROMs and Printed Proceedings}
+
+In some conferences, the papers are published on CD-ROM while only the
+abstract is published in the printed Proceedings. In this case, authors are
+invited to prepare two final versions of the paper. One, complete, to be
+published on the CD and the other, containing only the first page, with
+abstract and ``resumo'' (for papers in Portuguese).
+
+\section{Sections and Paragraphs}
+
+Section titles must be in boldface, 13pt, flush left. There should be an extra
+12 pt of space before each title. Section numbering is optional. The first
+paragraph of each section should not be indented, while the first lines of
+subsequent paragraphs should be indented by 1.27 cm.
+
+\subsection{Subsections}
+
+The subsection titles must be in boldface, 12pt, flush left.
+
+\section{Figures and Captions}\label{sec:figs}
+
+
+Figure and table captions should be centered if less than one line
+(Figure~\ref{fig:exampleFig1}), otherwise justified and indented by 0.8cm on
+both margins, as shown in Figure~\ref{fig:exampleFig2}. The caption font must
+be Helvetica, 10 point, boldface, with 6 points of space before and after each
+caption.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.5\textwidth]{fig1.jpg}
+\caption{A typical figure}
+\label{fig:exampleFig1}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.3\textwidth]{fig2.jpg}
+\caption{This figure is an example of a figure caption taking more than one
+  line and justified considering margins mentioned in Section~\ref{sec:figs}.}
+\label{fig:exampleFig2}
+\end{figure}
+
+In tables, try to avoid the use of colored or shaded backgrounds, and avoid
+thick, doubled, or unnecessary framing lines. When reporting empirical data,
+do not use more decimal digits than warranted by their precision and
+reproducibility. Table caption must be placed before the table (see Table 1)
+and the font used must also be Helvetica, 10 point, boldface, with 6 points of
+space before and after each caption.
+
+\begin{table}[ht]
+\centering
+\caption{Variables to be considered on the evaluation of interaction
+  techniques}
+\label{tab:exTable1}
+\includegraphics[width=.7\textwidth]{table.jpg}
+\end{table}
+
+\section{Images}
+
+All images and illustrations should be in black-and-white, or gray tones,
+excepting for the papers that will be electronically available (on CD-ROMs,
+internet, etc.). The image resolution on paper should be about 600 dpi for
+black-and-white images, and 150-300 dpi for grayscale images.  Do not include
+images with excessive resolution, as they may take hours to print, without any
+visible difference in the result. 
+
+\section{References}
+
+Bibliographic references must be unambiguous and uniform.  We recommend giving
+the author names references in brackets, e.g. \cite{knuth:84},
+\cite{boulic:91}, \cite{smith:99}, and \cite{alfio:14}.
+
+The references must be listed using 12 point font size, with 6 points of space
+before each reference. The first line of each reference should not be
+indented, while the subsequent should be indented by 0.5 cm.
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
