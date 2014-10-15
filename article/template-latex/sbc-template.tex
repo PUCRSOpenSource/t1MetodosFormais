@@ -245,11 +245,94 @@ $$
 
 \emph{Prova do caso base:}
 
-Temos que mostrar que \[pos \; (ref \; nil) = rev \; (pre \; n)\] então é
+Temos que mostrar que \[pos \; (ref \; leaf) = rev \; (pre \; leaf)\] então é
 suficiente provar que
 
 \begin{align*}
+  pos \; (ref \; leaf) &= pos \; leaf & \text{by re01} \\
+  ... &= nil & \text{by pos01} \\
+  ... &= rev \; nil & \text{by rev01} \\
+  ... &= rev \; (pre \; leaf) & \text{by pre01} \\
+  qed & & \\
 \end{align*}
+
+\emph{Prova do caso indutivo:}
+
+Sejam $x_0:\tau, l:BTree(\tau), r:BTree(\tau)$ variáveis arbitrárias. Assumimos
+como hipóteses de indução
+
+\begin{align*}
+  pos \; (ref \; l) &= rev \; (pre \; l) & \text{IH1} \\
+  pos \; (ref \; r) &= rev \; (pre \; r) & \text{IH2} \\
+\end{align*}
+
+Com isso é suficiente demonstrar que
+
+\begin{align*}
+  pos \; (ref \; (br \; x \; l \; r)) &= pos \; (br \; x \; (ref \; r) \; (ref
+  \; l)) & \text{by re02} \\
+  ... &= cat \; (pos \; (ref \; r)) \; (cat \; (pos \; (ref \; l)) \; (cons \; x
+  \; nil)) & \text{by IH2} \\
+  ... &= cat \; (rev \; (pre \; r)) \; (cat \; (pos \; (ref \; l)) \; (cons \; x
+  \; nil)) & \text{by IH1} \\
+  ... &= cat \; (rev \; (pre \; r)) \; (cat \; (rev \; (pre \; l)) \; (cons \; x
+  \; nil)) & \text{by catAssociativity} \\
+  ... &= cat \; (cat \; (rev \; (pre \; r)) \; (rev \; (pre \; l))) \; (cons \;
+  x \; nil) & \text{by thRev} \\
+  qed & & \\
+\end{align*}
+
+\subsection{Prova do Teorema 2}
+\label{sub:pth02}
+
+\begin{align*}
+  P &\doteq \forall x:BTree(\tau). \; rev \; (in \; (ref \; x)) = in \; x \\
+  P(n) &\doteq rev \; (in \; (ref \; n)) = in \; n \\
+\end{align*}
+
+\emph{Prova do caso base:}
+
+Temos que mostrar que \[rev \; (in \; (ref \; leaf)) = in \; leaf\] então é
+suficiente provar que
+
+\begin{align*}
+  rev \; (in \; (ref \; leaf)) &= rev \; (in \; leaf) & \text{by re01} \\
+  ... &= rev \; nil & \text{by in01} \\
+  ... &= nil & \text{by rev01} \\
+  ... &= in \; leaf &  \text{by in01} \\
+  qed & & \\
+\end{align*}
+
+%theorem th02: "rev (in (ref x)) = in x"
+  %proof (induction x)
+    %show "rev (in (ref leaf)) = in leaf"
+      %proof -
+        %have "rev (in (ref leaf)) = rev (in leaf)" by (simp only: re01)
+        %also have "... = rev nil" by (simp only: in01)
+        %also have "... = nil" by (simp only: rev01)
+        %also have "... = in leaf" by (simp only: in01)
+        %finally show ?thesis by this
+      %qed
+      %next
+        %fix x::'a and l::"'a btree" and r::"'a btree"
+        %assume IH1: "rev (in (ref l)) = in l"
+        %assume IH2: "rev (in (ref r)) = in r"
+        %show "rev (in (ref (br x l r))) = in (br x l r)"
+          %proof -
+            %have "rev (in (ref (br x l r))) = rev (in (br x (ref r) (ref l)))" by (simp only: re02)
+            %also have "... = rev (cat (in (ref r)) (cons x (in (ref l))))" by (simp only: in02)
+            %also have "... = cat (rev (cons x (in (ref l)))) (rev (in (ref r)))" by (simp only: crazyRev)
+            %also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (rev (in (ref r)))" by (simp only: rev02)
+            %also have "... = cat (cat (rev (in (ref l))) (cons x nil)) (in r)" by (simp only: IH2)
+            %also have "... = cat (cat (in l) (cons x nil)) (in r)" by (simp only: IH1)
+            %also have "... = cat (in l) (cat (cons x nil) (in r))" by (simp only: catAssociativity)
+            %also have "... = cat (in l) (cons x (cat nil (in r)))" by (simp only: cat02)
+            %also have "... = cat (in l) (cons x (in r))" by (simp only: cat01)
+            %also have "... = in (br x l r)" by (simp only: in02)
+            %finally show ?thesis by this
+          %qed
+  %qed
+
 
 \begin{lstlisting}
 theorem th01: "pos (ref x) = rev (pre x)"
