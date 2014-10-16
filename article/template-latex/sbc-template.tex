@@ -119,64 +119,67 @@ Isso é relevante pois mostraremos agora a definição de dois tipos de dados:
 \subsection{Listas Genéricas}
 \label{sub:Lista}
 
-Foram definidos dois construtores para uma \emph{Lista Genérica}, 
+Foram definidos seguintes construtores para uma \emph{Lista Genérica}.
 
+\vspace{0.5cm}
 
-uahfuaeh fuaehf auehf auehfu aehfuae hfuhae fuhaeuf aeufh aeufh aeufhaeuhf uaehf
-aeufh aeufh aeuhf aeufhuaeh fuaehf uaefh uaehf uaehfu aehf aeufhae ufhuaeh
-fuaehf uaeh fuae hfuaeh f
+  \begin{center}
+    \begin{prooftree}
+    \justifies
+      nil \in List(\tau)
+    \proofdotseparation=1.2ex
+    \thickness=0.08em
+    \using
+      ListEmpty
+    \end{prooftree}
+  \end{center}
 
-$$
-\begin{prooftree}
-\justifies
-  nil \in List(\tau)
-\proofdotseparation=1.2ex
-\thickness=0.08em
-\using
-  ListEmpty
-\end{prooftree}
-$$
+  \begin{center}
+    \begin{prooftree}
+      e \in \tau
+      \;\;\;
+      L \in List(\tau)
+    \justifies
+      cons \;  e \; L
+    \proofdotseparation=1.2ex
+    \thickness=0.08em
+    \using
+      ListCons
+    \end{prooftree}
+  \end{center}
 
-$$
-\begin{prooftree}
-  e \in \tau
-  \;\;\;
-  L \in List(\tau)
-\justifies
-  cons \;  e \; L
-\proofdotseparation=1.2ex
-\thickness=0.08em
-\using
-  ListCons
-\end{prooftree}
-$$
+\vspace{0.5cm}
+
+Com esses construtores conseguimos definir o tipo indutivo lista da seguinte
+maneira:
 
 \begin{center}
-  \begin{framed}
-    \begin{prooftree}
-      \[
-      \proofdotseparation=1.2ex
-      \proofdotnumber=4
-      \leadsto
-        P \; nil
-      \]
-      \[
-        e_0 : \tau, l_0 : List(\tau), P(l_0)
-      \proofdotseparation=1.2ex
-      \proofdotnumber=4
-      \leadsto
-      P \; (cons \; e_0 \; L_0)
-      \]
-      (e_0, l_0 \; arbitr\acute{a}rios)
-      \justifies
-        \forall l : List(\tau). \; P \; l
-      \proofdotseparation=1.2ex
-      \thickness=0.08em
-      \using
-        IndList
-    \end{prooftree}
-  \end{framed}
+  \begin{prooftree}
+    \[
+    \proofdotseparation=1.2ex
+    \proofdotnumber=4
+    \leadsto
+      P \; nil
+    \]
+    \[
+      e_0 : \tau, l_0 : List(\tau), P(l_0)
+    \proofdotseparation=1.2ex
+    \proofdotnumber=4
+    \leadsto
+    P \; (cons \; e_0 \; L_0)
+    \]
+    (e_0, l_0 \; arbitr\acute{a}rios)
+    \justifies
+      \forall l : List(\tau). \; P \; l
+    \proofdotseparation=1.2ex
+    \thickness=0.08em
+    \using
+      IndList
+  \end{prooftree}
 \end{center}
+
+Definimos as seguintes funções primitivas recursivas para o tipo indutivo lista.
+Elas serão necessárias para provar os teoremas propostos.
 
 \begin{align*}
   cat& \; : \; List(\tau) \rightarrow List(\tau) \rightarrow List(\tau) & \\
@@ -195,60 +198,71 @@ $$
 \subsection{Árvores Binárias Genéricas}
 \label{sub:Arvore}
 
-$$
-\begin{prooftree}
-\justifies
-  leaf \in BTree(\tau)
-\proofdotseparation=1.2ex
-\thickness=0.08em
-\using
-  BTreeEmpty
-\end{prooftree}
-$$
+Foram definidos seguintes construtores para uma \emph{Árvore Binária Genérica}.
 
-$$
-\begin{prooftree}
-  x \in \tau
-  \;\;\;
-  L \in BTree(\tau)
-  \;\;\;
-  R \in BTree(\tau)
-\justifies
-  br \;  x \; L \; R
-\proofdotseparation=1.2ex
-\thickness=0.08em
-\using
-  BTreeBranch
-\end{prooftree}
-$$
+\vspace{0.5cm}
 
 \begin{center}
-  \begin{framed}
-    \begin{prooftree}
-      \[
-      \proofdotseparation=1.2ex
-      \proofdotnumber=4
-      \leadsto
-        P \; leaf
-      \]
-      \[
-        x_0 : \tau, lt_0, rt_0 : BTree(\tau), P(lt_0), P(rt_0)
-      \proofdotseparation=1.2ex
-      \proofdotnumber=4
-      \leadsto
-      P \; (x_0, lt_0, rt_0)
-      \]
-      (x_0, lt_0, rt_0 \; arbitr\acute{a}rios)
-      \justifies
-        \forall t : BTree(\tau). \; P \; t
-      \proofdotseparation=1.2ex
-      \thickness=0.08em
-      \using
-        IndBTree
-    \end{prooftree}
-  \end{framed}
+  \begin{prooftree}
+  \justifies
+    leaf \in BTree(\tau)
+  \proofdotseparation=1.2ex
+  \thickness=0.08em
+  \using
+    BTreeEmpty
+  \end{prooftree}
 \end{center}
 
+\begin{center}
+  \begin{prooftree}
+    x \in \tau
+    \;\;\;
+    L \in BTree(\tau)
+    \;\;\;
+    R \in BTree(\tau)
+  \justifies
+    br \;  x \; L \; R
+  \proofdotseparation=1.2ex
+  \thickness=0.08em
+  \using
+    BTreeBranch
+  \end{prooftree}
+\end{center}
+
+\vspace{0.5cm}
+
+Com esses construtores conseguimos definir o tipo indutivo lista da seguinte
+maneira:
+
+\begin{center}
+  \begin{prooftree}
+    \[
+    \proofdotseparation=1.2ex
+    \proofdotnumber=4
+    \leadsto
+      P \; leaf
+    \]
+    \[
+      x_0 : \tau, lt_0, rt_0 : BTree(\tau), P(lt_0), P(rt_0)
+    \proofdotseparation=1.2ex
+    \proofdotnumber=4
+    \leadsto
+    P \; (x_0, lt_0, rt_0)
+    \]
+    (x_0, lt_0, rt_0 \; arbitr\acute{a}rios)
+    \justifies
+      \forall t : BTree(\tau). \; P \; t
+    \proofdotseparation=1.2ex
+    \thickness=0.08em
+    \using
+      IndBTree
+  \end{prooftree}
+\end{center}
+
+\vspace{0.5cm}
+
+As operações propostas pelo problema são as seguintes funções primitivas
+recursivas: 
 
 \begin{align*}
   in& \; : \; BTree(\tau) \rightarrow List(\tau) & \\
@@ -280,6 +294,9 @@ $$
 \end{align*}
 
 \section{Provas}
+
+Os teoremas auxiliares utilizados possuem suas definições em $Isar$ na próxima
+seção.
 
 \subsection{Prova do Teorema 1}
 \label{sub:pth01}
@@ -325,6 +342,8 @@ Com isso é suficiente demonstrar que
   \; nil)) & \text{by catAssociativity} \\
   ... &= cat \; (cat \; (rev \; (pre \; r)) \; (rev \; (pre \; l))) \; (cons \;
   x \; nil) & \text{by thRev} \\
+  ... &= rev (cons x (cat (pre l) (pre r))) & \text{by rev02} \\
+  ... &= rev (pre (br x l r))" & \text{by pre02} \\
   qed & & \\
 \end{align*}
 
@@ -381,6 +400,10 @@ Com isso é suficiente demonstrar que
   ... &= in (br x l r) & \text{by in02} \\
   qed & & \\
 \end{align*}
+
+\section{Isar}
+
+
 
 \begin{lstlisting}
 theorem th01: "pos (ref x) = rev (pre x)"
